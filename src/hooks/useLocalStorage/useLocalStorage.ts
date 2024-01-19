@@ -24,17 +24,34 @@ export const useLocalStorage = (
   const [state, setState] = useState(getInitialValue)
   /*
     *
-    Fn
-    *
-    when run on the client side, it returns the retrieved localStorage value based on key variable
-    *
-    when run in the server side, it returns initialValue variable
+    Fn to initialize default state value
   */
   function getInitialValue () {
+    /*
+      *
+      if it's client side do statement
+    */
     if (isLocalStorageAvailable) {
+      /*
+        *
+        check if localStorage property exists in window object
+      */
+      if (!localStorage) throw new Error('localStorage is not supported!')
+      /*
+        *
+        get localStorage value based on key
+      */
       const storedValue = localStorage.getItem(key)
+      /*
+        *
+        if localStorage value exists return it, else return initialValue
+      */
       return storedValue ? JSON.parse(storedValue) : initialValue
     } else {
+      /*
+        *
+        if it's server side return initialValue
+      */
       return initialValue
     }
   }
