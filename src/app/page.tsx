@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <ValueField count={storedValue} />)
+      <ValueField count={storedValue} />
       <div className={styles.wrapper}>
         <button
           onClick={() => setValue(prev => prev + 1)}
