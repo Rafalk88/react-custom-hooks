@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react'
 
+export interface LocalStorageHookResult<T> {
+  storedValue: T
+  setValue: (value: T | ((prev: T) => T)) => void
+  isMounted: boolean
+}
+
 export const useLocalStorage = <T>(
   /*
     *
@@ -11,7 +17,7 @@ export const useLocalStorage = <T>(
     initialValue is the initial of useState
   */
   initialValue: T
-): [T, (value: T | ((prev: T) => T)) => void] => {
+): LocalStorageHookResult<T> => {
   /*
     *
     flag variable if it run on server
@@ -24,6 +30,11 @@ export const useLocalStorage = <T>(
     Pass initial state function to useState so logic is only executed once
   */
   const [storedValue, setStoredValue] = useState<T>(() => initialValue)
+  /*
+    *
+    Flag to track if component mount with data or not
+  */
+  const [isMounted, setIsMounted] = useState(false)
   /*
     *
     Fn initialize from local storage
@@ -73,6 +84,11 @@ export const useLocalStorage = <T>(
     }
     /*
       *
+      Component has mounted at start
+    */
+    setIsMounted(true)
+    /*
+      *
       Mount only
     */
   }, [])
@@ -113,5 +129,9 @@ export const useLocalStorage = <T>(
     }
   }
 
-  return [storedValue, setValue]
+  return {
+    storedValue,
+    setValue,
+    isMounted
+  }
 }
