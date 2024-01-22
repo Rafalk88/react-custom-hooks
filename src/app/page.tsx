@@ -6,20 +6,20 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import styles from "./page.module.css";
 
 export default function Home() {
-  const [count, setCount] = useLocalStorage('count', 0)
+  const { storedValue, setValue } = useLocalStorage('count', 0)
 
   return (
     <main className={styles.main}>
-      <ValueField count={count} />
+      <ValueField count={storedValue} />)
       <div className={styles.wrapper}>
         <button
-          onClick={() => setCount(prev => prev + 1)}
+          onClick={() => setValue(prev => prev + 1)}
           className={styles.btn}
         >
           +
         </button>
         <button
-          onClick={() => setCount(prev => prev - 1)}
+          onClick={() => setValue(prev => prev - 1)}
           className={styles.btn}
         >
           -
